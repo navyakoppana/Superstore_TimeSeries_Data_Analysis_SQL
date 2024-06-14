@@ -124,4 +124,16 @@ FROM(
 SELECT count(*) AS TotalOrders,sum(case when ship_date = order_date then 1 else 0 end) as SameDayShipped
 FROM superstore_data);
 
+Q.12. Compute average sales for each month and compares it to the same month in the previous year.
+
+SELECT *,LAG(avg_sales, 12) OVER (ORDER BY month) AS prev_year_sales
+FROM(
+SELECT 
+  DATE_TRUNC('month', order_date) AS month, 
+  AVG(sales) AS avg_sales   
+FROM superstore_data
+GROUP BY month);
+
+
+
 
